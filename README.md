@@ -1,4 +1,18 @@
-# [Sharp X68000](https://en.wikipedia.org/wiki/X68000) for [MiSTer Platform](https://github.com/MiSTer-devel/Main_MiSTer/wiki)
+# [Sharp X68000](https://en.wikipedia.org/wiki/X68000) for SoCkit Platform
+
+Ported from [MiSTer Platform](https://github.com/MiSTer-devel/Main_MiSTer/wiki).
+
+Add this to the end of MiSTer.ini file
+
+```
+[X68000]
+vga_scaler=1
+forced_scandoubler=0
+```
+
+
+
+### Follows original readme:
 
 This is the port of the [Sharp X68000](http://fpga8801.seesaa.net/category/24786679-1.html) core by Puu-san.
 
