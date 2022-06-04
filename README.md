@@ -1,6 +1,6 @@
 # [Sharp X68000](https://en.wikipedia.org/wiki/X68000) for SoCkit Platform
 
-Ported from [MiSTer Platform](https://github.com/MiSTer-devel/Main_MiSTer/wiki).
+Ported from [MiSTer Platform](https://github.com/MiSTer-devel/X68000_MiSTer).
 
 Add this to the end of MiSTer.ini file
 

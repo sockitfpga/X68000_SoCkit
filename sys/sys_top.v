@@ -1516,27 +1516,62 @@ alsa alsa
 );
 
 //// DE10-Standard / DE1-SoC / SoCkit Audio CODEC i2c ////
+// assign AUD_MUTE = 1'b1;
+
+// // I2C audio config
+// I2C_AV_Config audio_config (
+//   // host side
+//   .iCLK         (clk_audio        ),
+//   .iRST_N       (!reset           ),
+//   // i2c side
+//   .oI2C_SCLK    (I2C_SCLK         ),
+//   .oI2C_SDAT    (I2C_SDAT         )
+// );
+
+// audio_top audio_i2s (
+// 	.clk_50MHz  (clk_audio  ),
+// 	.dac_MCLK   (AUD_XCK    ),
+// 	.dac_LRCK   (AUD_DACLRCK),
+// 	.dac_SCLK   (AUD_BCLK   ),
+// 	.dac_SDIN   (AUD_DACDAT ),
+// 	.L_data     (audio_l    ),
+// 	.R_data     (audio_r    )
+// 	//.L_data     ( {~audio_l[15], audio_l[14:0]} ),
+// 	//.R_data     ( {~audio_r[15], audio_r[14:0]} )
+// 	//.L_data     ( { 1'b0, audio_l[14:0]} ),
+// 	//.R_data     ( { 1'b0, audio_r[14:0]} )
+// );		
+
+// assign AUD_XCK     = HDMI_MCLK;
+// assign AUD_DACLRCK = HDMI_LRCLK;
+// assign AUD_BCLK    = HDMI_SCLK;
+// assign AUD_DACDAT  = HDMI_I2S;
+
+
+
+wire exchan;
+wire mix;
+assign exchan = 1'b0;
+assign mix = 1'b0;
 assign AUD_MUTE = 1'b1;
 
-// I2C audio config
-I2C_AV_Config audio_config (
-  // host side
-  .iCLK         (clk_audio        ),
-  .iRST_N       (!reset           ),
-  // i2c side
-  .oI2C_SCLK    (I2C_SCLK         ),
-  .oI2C_SDAT    (I2C_SDAT         )
+audio_top audio_top (
+  .clk          (clk_audio),  // input clock
+  .rst_n        (!reset),		// active low reset (from reset button)
+  // config
+  .exchan       (exchan),		// switch audio left / right channel
+  .mix          (mix),			// normal / centered mix (play some left channel on the right channel and vise-versa)
+  // audio shifter
+  .rdata        (audio_r),		// right channel sample data
+  .ldata        (audio_l),		// left channel sample data
+  .aud_bclk     (AUD_BCLK),	// CODEC data clock
+  .aud_daclrck  (AUD_DACLRCK),// CODEC data clock
+  .aud_dacdat   (AUD_DACDAT),	// CODEC data
+  .aud_xck      (AUD_XCK),  	// CODEC data clock
+  // I2C audio config
+  .i2c_sclk     (I2C_SCLK),  	// CODEC config clock
+  .i2c_sdat     (I2C_SDAT)   // CODEC config data
 );
-
-audio_top audio_i2s (
-	.clk_50MHz  (clk_audio  ),
-	.dac_MCLK   (AUD_XCK    ),
-	.dac_LRCK   (AUD_DACLRCK),
-	.dac_SCLK   (AUD_BCLK   ),
-	.dac_SDIN   (AUD_DACDAT ),
-	.L_data     (audio_l    ),
-	.R_data     (audio_r    )
-);		
 
 
 ////////////////  User I/O (USB 3.0 connector) /////////////////////////

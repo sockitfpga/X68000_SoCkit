@@ -59,11 +59,13 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to VGA_*
 #============================================================
 # AUDIO
 #============================================================
-# set_location_assignment PIN_AC24 -to AUDIO_L
-# set_location_assignment PIN_AE25 -to AUDIO_R
+# assign GPIO0_D[4]  = PS2_KEYBOARD_CLK;  //HSMC_CLKIN_n1 PIN_AB27
+# assign GPIO0_D[5]  = PS2_KEYBOARD_DAT;  //HSMC_RX _n[7] PIN_F8 
+set_location_assignment PIN_AB27 -to AUDIO_L
+set_location_assignment PIN_F8 -to AUDIO_R
 # set_location_assignment PIN_AG26 -to AUDIO_SPDIF
-# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to AUDIO_*
-# set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to AUDIO_*
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to AUDIO_*
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to AUDIO_*
 
 set_location_assignment PIN_AC27 -to AUD_ADCDAT
 set_location_assignment PIN_AG30 -to AUD_ADCLRCK
