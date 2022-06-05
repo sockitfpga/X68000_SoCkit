@@ -205,8 +205,8 @@ set_location_assignment PIN_AE12 -to KEY[1]
 #============================================================
 # LED
 #============================================================
-set_location_assignment PIN_AD7 -to LED[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED[0]
+set_location_assignment PIN_AD7 -to LED0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED0
 
 #============================================================
 # SW
@@ -215,10 +215,7 @@ set_location_assignment PIN_W25  -to SW[0]
 set_location_assignment PIN_V25  -to SW[1]
 set_location_assignment PIN_AC28 -to SW[2]
 set_location_assignment PIN_AC29 -to SW[3]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[0]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[1]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[2]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[*]
 
 #============================================================
 

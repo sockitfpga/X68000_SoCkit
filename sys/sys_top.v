@@ -89,8 +89,8 @@ module sys_top
 	output 		  VGA_SYNC_N,
 
 	/////////// AUDIO //////////
-	// output		  AUDIO_L,
-	// output		  AUDIO_R,
+	output		  AUDIO_L,
+	output		  AUDIO_R,
 	// output		  AUDIO_SPDIF,
 
 	//DE10-standard / DE1-soc kit implementation for on-board Audio CODEC
@@ -143,10 +143,11 @@ module sys_top
 	////////// MB SWITCH ////////
 	//DE10-standard / DE1-soc kit / Arrow SoCKit board implementation
 	//input   [3:0] SW,
-	inout   [3:0] SW,
+	inout   [3:0] SW,				// TO BE FIXED
 
 	////////// MB LED ///////////
-	output  [7:0] LED
+	//output  [7:0] LED
+	output LED0
 
 	///////// USER IO ///////////
 	//inout   [6:0] USER_IO
@@ -178,8 +179,8 @@ wire        ADC_SDO;
 wire        ADC_SDI;
 wire        ADC_CONVST;
 
-wire		AUDIO_L;
-wire		AUDIO_R;
+//wire		AUDIO_L;
+//wire		AUDIO_R;
 wire		AUDIO_SPDIF;
 
 wire        SD_SPI_CS;
@@ -196,6 +197,10 @@ wire         SDIO_CMD;
 wire         SDIO_CLK;
 
 wire   [6:0] USER_IO;
+
+wire   [7:0] LED;
+
+assign LED0 = LED[0];
 
 
 //////////////////////  Secondary SD  ///////////////////////////////////
@@ -1516,17 +1521,18 @@ alsa alsa
 );
 
 //// DE10-Standard / DE1-SoC / SoCkit Audio CODEC i2c ////
-// assign AUD_MUTE = 1'b1;
 
-// // I2C audio config
-// I2C_AV_Config audio_config (
-//   // host side
-//   .iCLK         (clk_audio        ),
-//   .iRST_N       (!reset           ),
-//   // i2c side
-//   .oI2C_SCLK    (I2C_SCLK         ),
-//   .oI2C_SDAT    (I2C_SDAT         )
-// );
+assign AUD_MUTE = 1'b1;
+
+// I2C audio config
+I2C_AV_Config audio_config (
+  // host side
+  .iCLK         (clk_audio        ),
+  .iRST_N       (!reset           ),
+  // i2c side
+  .oI2C_SCLK    (I2C_SCLK         ),
+  .oI2C_SDAT    (I2C_SDAT         )
+);
 
 // audio_top audio_i2s (
 // 	.clk_50MHz  (clk_audio  ),
@@ -1542,36 +1548,36 @@ alsa alsa
 // 	//.R_data     ( { 1'b0, audio_r[14:0]} )
 // );		
 
-// assign AUD_XCK     = HDMI_MCLK;
-// assign AUD_DACLRCK = HDMI_LRCLK;
-// assign AUD_BCLK    = HDMI_SCLK;
-// assign AUD_DACDAT  = HDMI_I2S;
+assign AUD_XCK     = HDMI_MCLK;
+assign AUD_DACLRCK = HDMI_LRCLK;
+assign AUD_BCLK    = HDMI_SCLK;
+assign AUD_DACDAT  = HDMI_I2S;
 
 
 
-wire exchan;
-wire mix;
-assign exchan = 1'b0;
-assign mix = 1'b0;
-assign AUD_MUTE = 1'b1;
+// wire exchan;
+// wire mix;
+// assign exchan = 1'b0;
+// assign mix = 1'b0;
+// assign AUD_MUTE = 1'b1;
 
-audio_top audio_top (
-  .clk          (clk_audio),  // input clock
-  .rst_n        (!reset),		// active low reset (from reset button)
-  // config
-  .exchan       (exchan),		// switch audio left / right channel
-  .mix          (mix),			// normal / centered mix (play some left channel on the right channel and vise-versa)
-  // audio shifter
-  .rdata        (audio_r),		// right channel sample data
-  .ldata        (audio_l),		// left channel sample data
-  .aud_bclk     (AUD_BCLK),	// CODEC data clock
-  .aud_daclrck  (AUD_DACLRCK),// CODEC data clock
-  .aud_dacdat   (AUD_DACDAT),	// CODEC data
-  .aud_xck      (AUD_XCK),  	// CODEC data clock
-  // I2C audio config
-  .i2c_sclk     (I2C_SCLK),  	// CODEC config clock
-  .i2c_sdat     (I2C_SDAT)   // CODEC config data
-);
+// audio_top audio_top (
+//   .clk          (clk_audio),  // input clock
+//   .rst_n        (!reset),		// active low reset (from reset button)
+//   // config
+//   .exchan       (exchan),		// switch audio left / right channel
+//   .mix          (mix),			// normal / centered mix (play some left channel on the right channel and vise-versa)
+//   // audio shifter
+//   .rdata        (audio_r),		// right channel sample data
+//   .ldata        (audio_l),		// left channel sample data
+//   .aud_bclk     (AUD_BCLK),	// CODEC data clock
+//   .aud_daclrck  (AUD_DACLRCK),// CODEC data clock
+//   .aud_dacdat   (AUD_DACDAT),	// CODEC data
+//   .aud_xck      (AUD_XCK),  	// CODEC data clock
+//   // I2C audio config
+//   .i2c_sclk     (I2C_SCLK),  	// CODEC config clock
+//   .i2c_sdat     (I2C_SDAT)   // CODEC config data
+// );
 
 
 ////////////////  User I/O (USB 3.0 connector) /////////////////////////
