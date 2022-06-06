@@ -14,7 +14,7 @@
 # set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to SDIO_CMD
 
 #============================================================
-# VGA
+# VGA   (from SoCkit board)
 #============================================================
 set_location_assignment PIN_AG5 -to VGA_R[0]
 set_location_assignment PIN_AA12 -to VGA_R[1]
@@ -59,14 +59,15 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to VGA_*
 #============================================================
 # AUDIO
 #============================================================
-# assign GPIO0_D[4]  = PS2_KEYBOARD_CLK;  //HSMC_CLKIN_n1 PIN_AB27
-# assign GPIO0_D[5]  = PS2_KEYBOARD_DAT;  //HSMC_RX _n[7] PIN_F8 
-set_location_assignment PIN_AB27 -to AUDIO_L
-set_location_assignment PIN_F8 -to AUDIO_R
+# HSMC J3 connector pin 1 HSMC_CLKIN_n1 PIN_AB27
+# HSMC J3 connector pin 2 HSMC_RX _n[7] PIN_F8 
+# set_location_assignment PIN_AB27 -to AUDIO_L
+# set_location_assignment PIN_F8 -to AUDIO_R
 # set_location_assignment PIN_AG26 -to AUDIO_SPDIF
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to AUDIO_*
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to AUDIO_*
+# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to AUDIO_*
+# set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to AUDIO_*
 
+# Audio CODED is from SoCkit board
 set_location_assignment PIN_AC27 -to AUD_ADCDAT
 set_location_assignment PIN_AG30 -to AUD_ADCLRCK
 set_location_assignment PIN_AE7 -to AUD_BCLK
@@ -85,11 +86,12 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to I2C_*
 #============================================================
 # I/O #1
 #============================================================
+# leds are from SoCkit board
 set_location_assignment PIN_AE11 -to LED_USER
 set_location_assignment PIN_AF10 -to LED_HDD
 set_location_assignment PIN_AD10 -to LED_POWER
-
-set_location_assignment PIN_AD9 -to BTN_USER
+# buttons are from SoCkit board
+set_location_assignment PIN_AD9  -to BTN_USER
 set_location_assignment PIN_AD11 -to BTN_OSD
 set_location_assignment PIN_AD27 -to BTN_RESET
 

@@ -127,17 +127,8 @@ set_location_assignment PIN_E11 -to SDRAM_DQML
 #============================================================
 # CLOCK
 #============================================================
-#set_location_assignment PIN_K14  -to FPGA_CLK1_50
-#set_location_assignment PIN_Y26  -to FPGA_CLK2_50
-#set_location_assignment PIN_AA16 -to FPGA_CLK3_50
-#set_location_assignment PIN_AF14 -to FPGA_CLK4_50
-#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_CLK1_50
-#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_CLK2_50
-#set_instance_assignment -name IO_STANDARD "1.5 V" -to FPGA_CLK3_50
-#set_instance_assignment -name IO_STANDARD "1.5 V" -to FPGA_CLK4_50
-
 set_location_assignment PIN_Y26  -to FPGA_CLK1_50
-set_location_assignment PIN_AA16  -to FPGA_CLK2_50
+set_location_assignment PIN_AA16 -to FPGA_CLK2_50
 set_location_assignment PIN_AF14 -to FPGA_CLK3_50
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_CLK1_50
 set_instance_assignment -name IO_STANDARD "1.5 V" -to FPGA_CLK2_50
@@ -147,17 +138,17 @@ set_instance_assignment -name IO_STANDARD "1.5 V" -to FPGA_CLK3_50
 #============================================================
 # HDMI
 #============================================================
-# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_I2C_*
-# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_I2S
-# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_LRCLK
-# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_MCLK
-# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_SCLK
-# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_*
-# set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_D[*]
-# set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_DE
-# set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_HS
-# set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_VS
-# set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_CLK
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_I2C_*
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_I2S
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_LRCLK
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_MCLK
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_SCLK
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HDMI_TX_*
+#set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_D[*]
+#set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_DE
+#set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_HS
+#set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_VS
+#set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HDMI_TX_CLK
 #set_location_assignment PIN_U10 -to HDMI_I2C_SCL
 #set_location_assignment PIN_AA4 -to HDMI_I2C_SDA
 #set_location_assignment PIN_T13 -to HDMI_I2S

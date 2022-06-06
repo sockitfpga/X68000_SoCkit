@@ -76,24 +76,24 @@ module sys_top
 	//output  [5:0] VGA_R,
 	//output  [5:0] VGA_G,
 	//output  [5:0] VGA_B,
-	//DE10-standard / DE1-soc kit board implementation has to contain 8 / color otherwise the brightness is low on the DAC
+	//SoCkit, DE10-standard, DE1-SoC implementation need to contain 8 bit color otherwise the brightness is low on the DAC
 	output  [7:0] VGA_R,
 	output  [7:0] VGA_G,
 	output  [7:0] VGA_B,
 	inout         VGA_HS,  // VGA_HS is secondary SD card detect when VGA_EN = 1 (inactive)
 	output		  VGA_VS,
-	// input      VGA_EN,  // active low
-	//DE10-standard / DE1-soc kit implementation for on-board VGA DAC route - additional pins
+	//input      VGA_EN,  // active low
+	//SoCkit, DE10-standard, DE1-SoC implementation for on-board VGA DAC route - additional pins
 	output 		  VGA_CLK,
 	output 		  VGA_BLANK_N,
 	output 		  VGA_SYNC_N,
 
 	/////////// AUDIO //////////
-	output		  AUDIO_L,
-	output		  AUDIO_R,
+	// output		  AUDIO_L,
+	// output		  AUDIO_R,
 	// output		  AUDIO_SPDIF,
 
-	//DE10-standard / DE1-soc kit implementation for on-board Audio CODEC
+	//SoCkit, DE10-standard, DE1-SoC implementation for on-board Audio CODEC
 	// Audio CODEC
 	inout wire    AUD_ADCLRCK,  // Audio CODEC ADC LR Clock
 	input wire    AUD_ADCDAT,   // Audio CODEC ADC Data
@@ -141,7 +141,7 @@ module sys_top
 	input   [1:0] KEY,
 
 	////////// MB SWITCH ////////
-	//DE10-standard / DE1-soc kit / Arrow SoCKit board implementation
+	//SoCkit, DE10-standard, DE1-SoC board implementation
 	//input   [3:0] SW,
 	inout   [3:0] SW,				// TO BE FIXED
 
@@ -153,9 +153,10 @@ module sys_top
 	//inout   [6:0] USER_IO
 );
 
-// DE10-Stanard / DE1-SoC / Arrow SoCKit VGA mode
+// DE10-Standard / DE1-SoC / Arrow SoCKit VGA mode
 assign SW[3] = 1'b0;		//necessary for VGA mode
-//DE10-standard / DE1-soc kit implementation for on-board VGA DAC route - this will be overrided by code to set value to 0
+
+// DE10-Standard / DE1-SoC / SoCKit implementation for on-board VGA DAC route - this will be overrided by code to set value to 0
 wire   VGA_EN;  // active low
 assign VGA_EN = 1'b0;		//enable VGA mode when VGA_EN is low
 
@@ -179,8 +180,8 @@ wire        ADC_SDO;
 wire        ADC_SDI;
 wire        ADC_CONVST;
 
-//wire		AUDIO_L;
-//wire		AUDIO_R;
+wire		AUDIO_L;
+wire		AUDIO_R;
 wire		AUDIO_SPDIF;
 
 wire        SD_SPI_CS;
@@ -297,7 +298,7 @@ wire [31:0] gp_out;
 wire  [1:0] io_ver = 1; // 0 - obsolete. 1 - optimized HPS I/O. 2,3 - reserved for future.
 wire        io_wait;
 wire        io_wide;
-wire [15:0] io_dout;                  
+wire [15:0] io_dout;
 wire [15:0] io_din = gp_outr[15:0];
 wire        io_clk = gp_outr[17];
 wire        io_ss0 = gp_outr[18];
@@ -1402,7 +1403,7 @@ csync csync_vga(clk_vid, vga_hs_osd, vga_vs_osd, vga_cs_osd);
 	assign VGA_R  = (VGA_EN | SW[3]) ? 8'bZZZZZZZZ :   (vga_fb | vga_scaler) ? vgas_o[23:16] : vga_o[23:16];
 	assign VGA_G  = (VGA_EN | SW[3]) ? 8'bZZZZZZZZ :   (vga_fb | vga_scaler) ? vgas_o[15:8]  : vga_o[15:8] ;
 	assign VGA_B  = (VGA_EN | SW[3]) ? 8'bZZZZZZZZ :   (vga_fb | vga_scaler) ? vgas_o[7:0]   : vga_o[7:0]  ;
-	//DE10-standard / Sockit implementation for on-board VGA DAC route - additional pins
+	//DE10-standard / DE1-SoC / SoCkit implementation for on-board VGA DAC route - additional pins
 	assign VGA_BLANK_N = VGA_HS && VGA_VS;  //VGA DAC additional required pin
 	assign VGA_SYNC_N = 0; 					//VGA DAC additional required pin
 	assign VGA_CLK = HDMI_TX_CLK; 			//has to define a clock to VGA DAC clock otherwise the picture is noisy
@@ -1520,9 +1521,13 @@ alsa alsa
 	.pcm_r(alsa_r)
 );
 
-//// DE10-Standard / DE1-SoC / SoCkit Audio CODEC i2c ////
+//// DE10-Standard / DE1-SoC / SoCkit Audio CODEC
 
-assign AUD_MUTE = 1'b1;
+assign AUD_MUTE    = 1'b1;
+assign AUD_XCK     = HDMI_MCLK;
+assign AUD_DACLRCK = HDMI_LRCLK;
+assign AUD_BCLK    = HDMI_SCLK;
+assign AUD_DACDAT  = HDMI_I2S;
 
 // I2C audio config
 I2C_AV_Config audio_config (
@@ -1534,6 +1539,8 @@ I2C_AV_Config audio_config (
   .oI2C_SDAT    (I2C_SDAT         )
 );
 
+
+// // Alternative I2S module used in Neptuno / Deca
 // audio_top audio_i2s (
 // 	.clk_50MHz  (clk_audio  ),
 // 	.dac_MCLK   (AUD_XCK    ),
@@ -1548,19 +1555,15 @@ I2C_AV_Config audio_config (
 // 	//.R_data     ( { 1'b0, audio_r[14:0]} )
 // );		
 
-assign AUD_XCK     = HDMI_MCLK;
-assign AUD_DACLRCK = HDMI_LRCLK;
-assign AUD_BCLK    = HDMI_SCLK;
-assign AUD_DACDAT  = HDMI_I2S;
 
-
-
+// //Alternative modernhackers Audio implementation
+//
 // wire exchan;
 // wire mix;
 // assign exchan = 1'b0;
 // assign mix = 1'b0;
 // assign AUD_MUTE = 1'b1;
-
+//
 // audio_top audio_top (
 //   .clk          (clk_audio),  // input clock
 //   .rst_n        (!reset),		// active low reset (from reset button)
