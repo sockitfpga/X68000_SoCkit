@@ -1,4 +1,4 @@
-# [Sharp X68000](https://en.wikipedia.org/wiki/X68000) for SoCkit Platform
+# [Sharp X68000](https://en.wikipedia.org/wiki/X68000) for [SoCkit (MiSTer) Platform](https://github.com/sockitfpga/MiSTer_SoCkit) 
 
 Ported from [MiSTer Platform](https://github.com/MiSTer-devel/X68000_MiSTer).
 
